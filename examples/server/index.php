@@ -15,11 +15,11 @@ $config = [
     ]
 ];
 
-$request = new \Zend\Http\PhpEnvironment\Request();
+$request = new \Laminas\Http\PhpEnvironment\Request();
 
 $ad = new \Magium\ActiveDirectory\ActiveDirectory(
     new \Magium\Configuration\Config\Repository\ArrayConfigurationRepository($config),
-    Zend\Psr7Bridge\Psr7ServerRequest::fromZend(new \Zend\Http\PhpEnvironment\Request())
+    \Laminas\Psr7Bridge\Psr7ServerRequest::fromLaminas(new \Laminas\Http\PhpEnvironment\Request())
 );
 
 $entity = $ad->authenticate();

@@ -9,9 +9,9 @@ use Magium\ActiveDirectory\Delegates\Receive;
 use Magium\Configuration\Config\Repository\ConfigInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Http\PhpEnvironment\Response;
-use Zend\Psr7Bridge\Psr7Response;
-use Zend\Uri\Uri;
+use Laminas\Http\PhpEnvironment\Response; // Change Zend to Laminas here
+use Laminas\Psr7Bridge\Psr7Response; // Change Zend to Laminas here
+use Laminas\Uri\Uri; // Change Zend to Laminas here
 
 class ActiveDirectory
 {
@@ -142,7 +142,7 @@ class ActiveDirectory
     public function getResponse()
     {
         if (!$this->response instanceof ResponseInterface) {
-            $this->response = Psr7Response::fromZend(new Response());
+            $this->response = Psr7Response::fromLaminas(new Response()); // Change fromZend to fromLaminas
         }
         return $this->response;
     }

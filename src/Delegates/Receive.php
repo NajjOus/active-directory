@@ -8,9 +8,9 @@ use Magium\ActiveDirectory\Entity;
 use Magium\ActiveDirectory\InvalidRequestException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Http\Header\Location;
-use Zend\Http\PhpEnvironment\Response;
-use Zend\Psr7Bridge\Psr7Response;
+use Laminas\Http\Header\Location; // Change Zend to Laminas here
+use Laminas\Http\PhpEnvironment\Response; // Change Zend to Laminas here
+use Laminas\Psr7Bridge\Psr7Response; // Change Zend to Laminas here
 
 class Receive
 {
@@ -83,20 +83,20 @@ class Receive
 
         // The id token is a JWT token that contains information about the user
         // It's a base64 coded string that has a header, payload and signature
-        $idToken = $accessToken->getValues()['id_token'];
+        $idToken = $accessToken->getToken(); // Change getValues()['id_token'] to getToken() because AccessToken no longer has a getValues() method
         $decodedAccessTokenPayload = base64_decode(
             explode('.', $idToken)[1]
         );
         $jsonAccessTokenPayload = json_decode($decodedAccessTokenPayload, true);
 
         $data = $jsonAccessTokenPayload;
-        $data['access_token'] = $accessToken->getToken();
+        $data['access_token'] = $accessToken->getToken(); // Change getAccessToken() to getToken() because AccessToken no longer has a getAccessToken() method
         $entity = new Entity($data);
         $_SESSION[ActiveDirectory::SESSION_KEY]['entity'] = $entity;
 
         $response = $this->getResponse();
         if ($response instanceof ResponseInterface) {
-            $response = new Response(Psr7Response::toZend($response));
+            $response = new Response(Psr7Response::toLaminas($response)); // Change toLaminas() from toZend() to convert PSR-7 response to Laminas response
         }
         $location = (new Location())->setUri($this->getReturnUrl());
         $response->getHeaders()->addHeader($location);

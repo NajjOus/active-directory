@@ -5,9 +5,9 @@ namespace Magium\ActiveDirectory\Delegates;
 use League\OAuth2\Client\Provider\AbstractProvider;
 use Magium\ActiveDirectory\ActiveDirectory;
 use Psr\Http\Message\ResponseInterface;
-use Zend\Http\Header\Location;
-use Zend\Http\PhpEnvironment\Response;
-use Zend\Psr7Bridge\Psr7Response;
+use Laminas\Http\Header\Location; // Change Zend to Laminas here
+use Laminas\Http\PhpEnvironment\Response; // Change Zend to Laminas here
+use Laminas\Psr7Bridge\Psr7Response; // Change Zend to Laminas here
 
 class Authorize
 {
@@ -31,7 +31,7 @@ class Authorize
         $_SESSION[ActiveDirectory::SESSION_KEY]['state'] = $this->provider->getState();
         $finalResponse = new Response();
         if ($this->response instanceof ResponseInterface) {
-            $response = Psr7Response::toZend($this->response);
+            $response = Psr7Response::toLaminas($this->response); // Change Zend to Laminas here
             $finalResponse->setHeaders($response->getHeaders());
         }
         $location = (new Location())->setUri($authorizationUrl);

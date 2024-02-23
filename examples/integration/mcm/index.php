@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../../../vendor/autoload.php';
 
-$request = \Zend\Psr7Bridge\Psr7ServerRequest::fromZend(new \Zend\Http\PhpEnvironment\Request());
+$request = \Laminas\Psr7Bridge\Psr7ServerRequest::fromLaminas(new \Laminas\Http\PhpEnvironment\Request());
 
 $factory = new \Magium\Configuration\MagiumConfigurationFactory();
 $manager = $factory->getManager();
